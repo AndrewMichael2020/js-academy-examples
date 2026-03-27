@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Farming the Prairies: A Saskatchewan Story</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const dictManifest = {
+      words: {
+        "welcome": "ласкаво просимо (вигук)",
+        "to": "до (прийменник)",
+        "the": "цей / ця (артикль)",
+        "prairies": "прерії (іменник)",
+        "i": "я (займенник)",
+        "farm": "фермерую (дієслово)",
+        "out": "десь / назовні (прислівник)",
+        "near": "біля (прийменник)",
+        "kindersley": "Кіндерслі (назва міста)",
+        "saskatchewan": "Саскачеван (назва провінції)",
+        "when": "коли (сполучник)",
+        "you": "ви / ти (займенник)",
+        "look": "дивитеся (дієслово)",
+        "around": "навколо (прислівник)",
+        "here": "тут (прислівник)",
+        "sky": "небо (іменник)",
+        "is": "є (дієслово)",
+        "so": "таке / так (прислівник)",
+        "big": "велике (прикметник)",
+        "it": "воно / це (займенник)",
+        "feels": "здається / відчувається (дієслово)",
+        "like": "ніби / як (сполучник)",
+        "might": "може (модальне дієслово)",
+        "swallow": "проковтнути (дієслово)",
+        "whole": "цілком / ціле (прислівник / прикметник)",
+        "some": "деякі (займенник)",
+        "folks": "люди (іменник)",
+        "think": "думають (дієслово)",
+        "there": "там / тут (прислівник)",
+        "not": "не (частка)",
+        "much": "багато (займенник)",
+        "going": "відбувається (дієприкметник)",
+        "on": "на (прийменник)",
+        "just": "просто (прислівник)",
+        "flat": "плоска / рівнинна (прикметник)",
+        "land": "земля (іменник)",
+        "and": "і / та (сполучник)",
+        "wheat": "пшениця (іменник)",
+        "that": "те / що (займенник)",
+        "old": "старе (прикметник)",
+        "comedy": "комедійне (прикметник)",
+        "show": "шоу (іменник)",
+        "about": "про (прийменник)",
+        "gas": "газова / бензо- (прикметник)",
+        "station": "заправка / станція (іменник)",
+        "in": "в / у (прийменник)",
+        "middle": "середина (іменник)",
+        "of": "з (прийменник)",
+        "nowhere": "ніде / глушина (іменник)",
+        "but": "але (сполучник)",
+        "they": "вони (займенник)",
+        "are": "є (дієслово)",
+        "missing": "пропускають (дієприкметник)",
+        "best": "найкращі (прикметник)",
+        "parts": "частини (іменник)",
+        "farming": "фермерство (іменник)",
+        "hard": "важка (прикметник)",
+        "work": "праця (іменник)",
+        "wake": "прокидаєтеся (дієслово)",
+        "up": "вгору (прислівник)",
+        "before": "до / перед (прийменник)",
+        "sun": "сонце (іменник)",
+        "go": "йдете (дієслово)",
+        "bed": "ліжко / спати (іменник)",
+        "long": "довго (прислівник)",
+        "after": "після (прийменник)",
+        "mosquitoes": "комарі (іменник)",
+        "come": "приходять / з'являються (дієслово)",
+        "spring": "весна (іменник)",
+        "race": "гонка (іменник)",
+        "against": "проти (прийменник)",
+        "clock": "годинник (іменник)",
+        "we": "ми (займенник)",
+        "drive": "водимо (дієслово)",
+        "tractors": "трактори (іменник)",
+        "size": "розмір (іменник)",
+        "small": "маленьких (прикметник)",
+        "houses": "будинків (іменник)",
+        "planting": "саджаючи / сіючи (дієприкметник)",
+        "canola": "канола / ріпак (іменник)",
+        "barley": "ячмінь (іменник)",
+        "until": "поки (сполучник)",
+        "our": "наші (займенник)",
+        "eyes": "очі (іменник)",
+        "blur": "розмиваються (дієслово)",
+        "worry": "хвилюємося (дієслово)",
+        "rain": "дощ (іменник)",
+        "frost": "мороз (іменник)",
+        "fix": "лагодимо (дієслово)",
+        "broken": "зламані (прикметник)",
+        "machinery": "техніка (іменник)",
+        "with": "з (прийменник)",
+        "whatever": "чим завгодно (займенник)",
+        "have": "маємо / повинен (дієслово)",
+        "red": "Ред (власна назва)",
+        "green": "Грін (власна назва)",
+        "always": "завжди (прислівник)",
+        "said": "казав (дієслово)",
+        "television": "телебачення (іменник)",
+        "am": "є (дієслово)",
+        "man": "чоловік (іменник)",
+        "can": "можу (модальне дієслово)",
+        "change": "змінитися (дієслово)",
+        "if": "якщо (сполучник)",
+        "guess": "мабуть / гадаю (дієслово)",
+        "mostly": "переважно (прислівник)",
+        "means": "означає (дієслово)",
+        "learning": "навчання (іменник)",
+        "how": "як (прислівник)",
+        "rebuild": "перебрати / відновити (дієслово)",
+        "diesel": "дизельний (прикметник)",
+        "engine": "двигун (іменник)",
+        "dark": "темрява (іменник)",
+        "joy": "радість (іменник)",
+        "quiet": "тихі (прикметник)",
+        "moments": "моменти (іменник)",
+        "nothing": "нічого (займенник)",
+        "smell": "запах (іменник)",
+        "earth": "земля (іменник)",
+        "summer": "літня (прикметник)",
+        "storm": "гроза / буря (іменник)",
+        "sit": "сидіти (дієслово)",
+        "porch": "ґанок (іменник)",
+        "watch": "спостерігати (дієслово)",
+        "lightning": "блискавка (іменник)",
+        "dance": "танцює (дієслово)",
+        "across": "через (прийменник)",
+        "horizon": "горизонт (іменник)",
+        "fifty": "п'ятдесят (числівник)",
+        "miles": "миль (іменник)",
+        "away": "далеко (прислівник)",
+        "fall": "осінь (іменник)",
+        "harvest": "урожай (іменник)",
+        "done": "завершено (дієприкметник)",
+        "town": "місто / містечко (іменник)",
+        "gets": "збирається (дієслово)",
+        "together": "разом (прислівник)",
+        "for": "для / на (прийменник)",
+        "supper": "вечеря (іменник)",
+        "community": "громадський (прикметник)",
+        "hall": "зал (іменник)",
+        "share": "ділимося (дієслово)",
+        "pies": "пироги (іменник)",
+        "stories": "історії (іменник)",
+        "laugh": "сміємося (дієслово)",
+        "ribs": "ребра (іменник)",
+        "hurt": "болять (дієслово)",
+        "winter": "зима (іменник)",
+        "cold": "холодна (прикметник)",
+        "sure": "звичайно (прислівник)",
+        "snow": "сніг (іменник)",
+        "piles": "нагромаджується (дієслово)",
+        "windows": "вікна (іменник)",
+        "wind": "вітер (іменник)",
+        "howls": "виє (дієслово)",
+        "lonely": "самотній (прикметник)",
+        "coyote": "койот (іменник)",
+        "more": "більше (прислівник)",
+        "time": "час (іменник)",
+        "hockey": "хокей (іменник)",
+        "frozen": "замерзлий (прикметник)",
+        "pond": "ставок (іменник)",
+        "drinking": "пиття (дієприслівник)",
+        "hot": "гаряча (прикметник)",
+        "coffee": "кава (іменник)",
+        "by": "біля (прийменник)",
+        "wood": "дров'яна (прикметник)",
+        "stove": "піч (іменник)",
+        "learn": "вчитеся (дієслово)",
+        "rely": "покладатися (дієслово)",
+        "your": "ваші (займенник)",
+        "neighbours": "сусіди (іменник)",
+        "truck": "вантажівка (іменник)",
+        "stuck": "застрягає (дієприкметник)",
+        "three": "троє (числівник)",
+        "people": "люди (іменник)",
+        "will": "будуть (допоміжне дієслово)",
+        "stop": "зупиняться (дієслово)",
+        "pull": "витягнути (дієслово)",
+        "even": "навіть (прислівник)",
+        "ask": "просити (дієслово)",
+        "life": "життя (іменник)",
+        "toil": "тяжка праця (іменник)",
+        "outweighs": "переважає (дієслово)",
+        "sweat": "піт (іменник)",
+        "keep": "тримайте (дієслово)",
+        "stick": "ключка (іменник)",
+        "ice": "лід (іменник)",
+        "this": "ця (займенник)",
+        "most": "найбільш (прислівник)",
+        "beautiful": "прекрасне (прикметник)",
+        "place": "місце (іменник)"
+      },
+      sentences: {
+        "welcome to the prairies.": "Ласкаво просимо до прерій.",
+        "i farm out near kindersley, saskatchewan.": "Я фермерую неподалік Кіндерслі, Саскачеван.",
+        "when you look around here, the sky is so big it feels like it might swallow you whole.": "Коли ви озираєтесь навколо, небо таке велике, що здається, ніби воно може проковтнути вас цілком.",
+        "some folks think there is not much going on out here.": "Деякі люди думають, що тут мало що відбувається.",
+        "they think it is just flat land and wheat, like that old comedy show about the gas station in the middle of nowhere.": "Вони думають, що це просто рівнинна земля і пшениця, як у тому старому комедійному шоу про заправку посеред нічого.",
+        "but they are missing the best parts.": "Але вони пропускають найкраще.",
+        "farming is hard work.": "Фермерство — це важка праця.",
+        "you wake up before the sun, and you go to bed long after the mosquitoes come out.": "Ви прокидаєтеся до сходу сонця і лягаєте спати довго після того, як з'являються комарі.",
+        "spring is a race against the clock.": "Весна — це гонка з часом.",
+        "we drive tractors the size of small houses, planting canola and barley until our eyes blur.": "Ми водимо трактори розміром з невеликі будинки, сіючи канолу та ячмінь, поки в очах не помутніє.",
+        "we worry about rain, we worry about frost, and we fix broken machinery with whatever we have.": "Ми хвилюємося через дощ, хвилюємося через мороз і лагодимо зламану техніку тим, що є під рукою.",
+        "like red green always said on television, \"i am a man, but i can change, if i have to, i guess.\"": "Як завжди казав Ред Грін по телевізору: «Я чоловік, але я можу змінитися, якщо доведеться, мабуть».",
+        "out here, changing mostly means learning how to rebuild a diesel engine in the dark.": "Тут зміни переважно означають навчання тому, як перебрати дизельний двигун у темряві.",
+        "but the joy is in the quiet moments.": "Але радість полягає в тихих моментах.",
+        "there is nothing like the smell of the earth after a summer storm.": "Немає нічого кращого за запах землі після літньої грози.",
+        "you can sit on the porch and watch the lightning dance across the horizon fifty miles away.": "Ви можете сидіти на ґанку і дивитися, як блискавка танцює на горизонті за п'ятдесят миль звідси.",
+        "in the fall, when the harvest is done, the whole town gets together for a supper at the community hall.": "Восени, коли зібрано урожай, усе місто збирається на вечерю в громадському залі.",
+        "we share pies, we share stories, and we laugh until our ribs hurt.": "Ми ділимося пирогами, історіями і сміємося так, що аж ребра болять.",
+        "winter is long and cold, sure.": "Зима довга і холодна, звичайно.",
+        "the snow piles up to the windows, and the wind howls like a lonely coyote.": "Сніг намітає аж до вікон, а вітер виє, як самотній койот.",
+        "but that just means more time for hockey on the frozen pond and drinking hot coffee by the wood stove.": "Але це просто означає більше часу для хокею на замерзлому ставку та пиття гарячої кави біля дров'яної печі.",
+        "you learn to rely on your neighbours.": "Ви вчитеся покладатися на своїх сусідів.",
+        "if your truck gets stuck in the snow, three people will stop to pull you out before you even ask.": "Якщо ваша вантажівка застрягне в снігу, троє людей зупиняться, щоб витягнути вас, ще до того, як ви попросите.",
+        "so, it is a life of toil, but the joy outweighs the sweat.": "Отже, це життя в тяжкій праці, але радість переважає піт.",
+        "keep your stick on the ice, work hard, and you will find that this flat land is the most beautiful place on earth.": "Тримай ключку на льоду, працюй наполегливо, і ти зрозумієш, що ця рівнинна земля — найпрекрасніше місце на світі."
+      }
+    };
+
+    const normalizeKey = (str) => str.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+    const normalizedDict = {
+      words: Object.fromEntries(Object.entries(dictManifest.words).map(([k, v]) => [normalizeKey(k), v])),
+      sentences: Object.fromEntries(Object.entries(dictManifest.sentences).map(([k, v]) => [normalizeKey(k), v]))
+    };
+
+    const rawText = `Welcome to the prairies. I farm out near Kindersley, Saskatchewan. When you look around here, the sky is so big it feels like it might swallow you whole. Some folks think there is not much going on out here. They think it is just flat land and wheat, like that old comedy show about the gas station in the middle of nowhere. But they are missing the best parts.
+
+Farming is hard work. You wake up before the sun, and you go to bed long after the mosquitoes come out. Spring is a race against the clock. We drive tractors the size of small houses, planting canola and barley until our eyes blur. We worry about rain, we worry about frost, and we fix broken machinery with whatever we have. Like Red Green always said on television, "I am a man, but I can change, if I have to, I guess." Out here, changing mostly means learning how to rebuild a diesel engine in the dark.
+
+But the joy is in the quiet moments. There is nothing like the smell of the earth after a summer storm. You can sit on the porch and watch the lightning dance across the horizon fifty miles away. In the fall, when the harvest is done, the whole town gets together for a supper at the community hall. We share pies, we share stories, and we laugh until our ribs hurt.
+
+Winter is long and cold, sure. The snow piles up to the windows, and the wind howls like a lonely coyote. But that just means more time for hockey on the frozen pond and drinking hot coffee by the wood stove. You learn to rely on your neighbours. If your truck gets stuck in the snow, three people will stop to pull you out before you even ask.
+
+So, it is a life of toil, but the joy outweighs the sweat. Keep your stick on the ice, work hard, and you will find that this flat land is the most beautiful place on earth.`;
+
+    function App() {
+      const [popup, setPopup] = useState({ visible: false, x: 0, y: 0, text: '', translation: '', type: '' });
+      const [activeSentence, setActiveSentence] = useState(null);
+      const containerRef = useRef(null);
+
+      useEffect(() => {
+        const handleClickOutside = () => setPopup(prev => ({ ...prev, visible: false }));
+        window.addEventListener('click', handleClickOutside);
+        return () => window.removeEventListener('click', handleClickOutside);
+      }, []);
+
+      const playAudio = (text, type) => {
+        window.speechSynthesis.cancel();
+        let cleanText = text.replace(/\s*\(.*?\)\s*/g, '').trim();
+        if (type === 'word' && cleanText.includes('/')) {
+          cleanText = cleanText.split('/')[0].trim();
+        }
+        if (!cleanText) return;
+        const utterance = new SpeechSynthesisUtterance(cleanText);
+        utterance.lang = 'uk-UA';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      };
+
+      const handleTextClick = (e, word, sentence) => {
+        e.stopPropagation();
+        const isCtrl = e.ctrlKey || e.metaKey;
+        const targetText = isCtrl ? sentence : word;
+        const lookupKey = normalizeKey(targetText);
+        let translation = isCtrl
+          ? normalizedDict.sentences[lookupKey] || "Переклад речення недоступний."
+          : normalizedDict.words[lookupKey] || "Слово не знайдено в словнику.";
+        const x = Math.min(e.clientX, window.innerWidth - 270);
+        const y = e.clientY + 20;
+        setActiveSentence(isCtrl ? sentence : null);
+        setPopup({ visible: true, x, y, text: targetText.trim(), translation, type: isCtrl ? 'sentence' : 'word' });
+      };
+
+      const paragraphs = rawText.split('\n\n').map(p => {
+        const sentences = p.match(/[^.!?]+[.!?]+["']*/g) || [p];
+        return sentences.map(s => ({
+          original: s,
+          words: s.split(/(\s+)/)
+        }));
+      });
+
+      return (
+        <div className="min-h-screen bg-stone-50 text-stone-800 p-8 font-serif selection:bg-blue-200" ref={containerRef}>
+          <div className="max-w-2xl mx-auto bg-white p-10 rounded-xl shadow-sm border border-stone-200">
+            <h1 className="text-2xl font-bold mb-6 font-sans text-stone-900">Farming the Prairies: A Saskatchewan Story</h1>
+            <p className="text-sm font-sans text-stone-500 mb-8 border-b pb-4">
+              <strong>Instructions:</strong> Click any word to translate it to Ukrainian. <code>Ctrl + Click</code> (or Cmd + Click) anywhere in a sentence to translate the full sentence. Use the 🔊 button to hear the Ukrainian pronunciation.
+            </p>
+
+            <div className="text-lg leading-loose space-y-6">
+              {paragraphs.map((sentences, pIdx) => (
+                <p key={pIdx}>
+                  {sentences.map((sentenceObj, sIdx) => (
+                    <span
+                      key={sIdx}
+                      className={`transition-colors duration-200 ${activeSentence === sentenceObj.original && popup.visible ? 'bg-blue-100' : ''}`}
+                    >
+                      {sentenceObj.words.map((wordOrSpace, wIdx) => {
+                        if (!wordOrSpace.trim()) return <span key={wIdx}>{wordOrSpace}</span>;
+                        return (
+                          <span
+                            key={wIdx}
+                            onClick={(e) => handleTextClick(e, wordOrSpace, sentenceObj.original)}
+                            className="cursor-pointer hover:bg-green-200 hover:text-green-900 transition-colors duration-150 rounded px-px"
+                          >
+                            {wordOrSpace}
+                          </span>
+                        );
+                      })}
+                    </span>
+                  ))}
+                </p>
+              ))}
+            </div>
+          </div>
+
+          {popup.visible && (
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="fixed z-50 w-64 bg-white border border-stone-200 rounded-lg shadow-xl overflow-hidden font-sans"
+              style={{ top: popup.y, left: popup.x }}
+            >
+              <div className="bg-stone-100 px-3 py-2 border-b border-stone-200 flex justify-between items-center">
+                <span className="text-xs font-semibold uppercase tracking-wider text-stone-500">
+                  {popup.type === 'sentence' ? 'Sentence' : 'Word'}
+                </span>
+                <button
+                  onClick={() => playAudio(popup.translation, popup.type)}
+                  className="p-1.5 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 transition-colors"
+                  title="Listen to Ukrainian"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                  </svg>
+                </button>
+              </div>
+              <div className="p-3">
+                <div className="text-sm text-stone-500 mb-1">{popup.text}</div>
+                <div className="text-base font-medium text-stone-900">{popup.translation}</div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

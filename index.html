@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JS Academy Examples</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-stone-50 text-stone-800 p-8 font-sans">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold text-stone-900 mb-2">JS Academy Examples</h1>
+    <p class="text-stone-500 mb-10 text-base border-b border-stone-200 pb-6">
+      Interactive language learning pages. Click a card to open a lesson.
+    </p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5" id="lessons">
+      <!-- Cards injected below -->
+    </div>
+  </div>
+
+  <script>
+    const lessons = [
+      {
+        file: "sask.html",
+        title: "Farming the Prairies",
+        subtitle: "A Saskatchewan Story",
+        lang: "EN → UA",
+        description: "Click words or sentences in an English prairie story to see Ukrainian translations, with audio pronunciation.",
+        emoji: "🌾"
+      }
+      // Add new lessons here as objects in the same shape
+    ];
+
+    const grid = document.getElementById('lessons');
+    lessons.forEach(({ file, title, subtitle, lang, description, emoji }) => {
+      grid.innerHTML += `
+        <a href="${file}" class="group block bg-white border border-stone-200 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-stone-300 transition-all duration-200">
+          <div class="text-4xl mb-3">${emoji}</div>
+          <div class="flex items-start justify-between gap-2 mb-1">
+            <h2 class="text-lg font-bold text-stone-900 group-hover:text-blue-700 transition-colors">${title}</h2>
+            <span class="text-xs font-semibold bg-stone-100 text-stone-500 px-2 py-1 rounded-full whitespace-nowrap">${lang}</span>
+          </div>
+          <p class="text-sm font-medium text-stone-500 mb-2">${subtitle}</p>
+          <p class="text-sm text-stone-600 leading-relaxed">${description}</p>
+        </a>
+      `;
+    });
+  </script>
+</body>
+</html>
