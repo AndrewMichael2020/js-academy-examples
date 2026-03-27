@@ -20,6 +20,15 @@ MODEL = "eleven_multilingual_v2"
 VOICE_UK = "ErXwobaYiN019PkySvjV"
 # Daniel — clear British male. Good prosody on Korean formal register.
 VOICE_KO = "onwK4e9ZLuTAKqWW03F9"
+# Adam — deep, warm, authoritative male. English story narration.
+VOICE_EN = "pNInz6obpgDQGcFmaJgB"
+
+SETTINGS_EN = VoiceSettings(
+    stability=0.38,
+    similarity_boost=0.75,
+    style=0.58,
+    use_speaker_boost=True
+)
 
 SETTINGS = VoiceSettings(
     stability=0.32,          # low = more dynamic inflection
@@ -518,19 +527,68 @@ def run():
         key = normalize_key(en_word)
         tasks.append((clean_for_tts(ko_text, 'ko'), VOICE_KO, Path(f"audio/ko/words/{key}.mp3")))
 
-    # Sentences
+    # UK/KO Sentences
     for idx, (_, uk_text) in enumerate(SENTENCES_UK):
         tasks.append((uk_text, VOICE_UK, Path(f"audio/uk/sentences/{idx}.mp3")))
     for idx, (_, ko_text) in enumerate(SENTENCES_KO):
         tasks.append((ko_text, VOICE_KO, Path(f"audio/ko/sentences/{idx}.mp3")))
 
+    # English words (the word itself, for natural pronunciation)
+    for en_word in WORDS_UK.keys():
+        key = normalize_key(en_word)
+        tasks.append((en_word, VOICE_EN, Path(f"audio/en/words/{key}.mp3"), SETTINGS_EN))
+
+    # English sentences
+    for idx, (en_text, _) in enumerate(SENTENCES_UK):
+        # Capitalise first letter for natural TTS
+        spoken = en_text[0].upper() + en_text[1:]
+        tasks.append((spoken, VOICE_EN, Path(f"audio/en/sentences/{idx}.mp3"), SETTINGS_EN))
+
+    # Full English story
+    raw_story = (
+        "Welcome to the prairies. I farm out near Kindersley, Saskatchewan. "
+        "When you look around here, the sky is so big it feels like it might swallow you whole. "
+        "Some folks think there is not much going on out here. "
+        "They think it is just flat land and wheat, like that old comedy show about the gas station in the middle of nowhere. "
+        "But they are missing the best parts.\n\n"
+        "Farming is hard work. You wake up before the sun, and you go to bed long after the mosquitoes come out. "
+        "Spring is a race against the clock. We drive tractors the size of small houses, planting canola and barley until our eyes blur. "
+        "We worry about rain, we worry about frost, and we fix broken machinery with whatever we have. "
+        "Like Red Green always said on television, \"I am a man, but I can change, if I have to, I guess.\" "
+        "Out here, changing mostly means learning how to rebuild a diesel engine in the dark.\n\n"
+        "But the joy is in the quiet moments. There is nothing like the smell of the earth after a summer storm. "
+        "You can sit on the porch and watch the lightning dance across the horizon fifty miles away. "
+        "In the fall, when the harvest is done, the whole town gets together for a supper at the community hall. "
+        "We share pies, we share stories, and we laugh until our ribs hurt.\n\n"
+        "Winter is long and cold, sure. The snow piles up to the windows, and the wind howls like a lonely coyote. "
+        "But that just means more time for hockey on the frozen pond and drinking hot coffee by the wood stove. "
+        "You learn to rely on your neighbours. "
+        "If your truck gets stuck in the snow, three people will stop to pull you out before you even ask.\n\n"
+        "So, it is a life of toil, but the joy outweighs the sweat. "
+        "Keep your stick on the ice, work hard, and you will find that this flat land is the most beautiful place on earth."
+    )
+    tasks.append((raw_story, VOICE_EN, Path("audio/en/story.mp3"), SETTINGS_EN))
+
     total = len(tasks)
-    skipped = sum(1 for _, _, p in tasks if p.exists())
+    skipped = sum(1 for t in tasks if t[2].exists())
     print(f"Total: {total}  |  Already generated: {skipped}  |  To generate: {total - skipped}\n")
 
-    for i, (text, voice_id, path) in enumerate(tasks):
+    for i, t in enumerate(tasks):
+        text, voice_id, path = t[0], t[1], t[2]
+        settings = t[3] if len(t) > 3 else SETTINGS
         print(f"[{i+1}/{total}] {path.name[:28]:28s}  \"{text[:40]}\"")
-        generate(text, voice_id, path)
+        if path.exists():
+            print(f"  skip  {path}")
+            continue
+        path.parent.mkdir(parents=True, exist_ok=True)
+        audio = client.text_to_speech.convert(
+            voice_id=voice_id, text=text, model_id=MODEL,
+            voice_settings=settings, output_format="mp3_44100_128"
+        )
+        data = b"".join(audio)
+        path.write_bytes(data)
+        print(f"  wrote {path}  ({len(data)} bytes)")
+        import time; time.sleep(0.35)
 
     print("\n✅ Done.")
 
