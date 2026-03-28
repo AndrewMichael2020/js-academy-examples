@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Javelin Experiment Board - Language Academy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: #f1f5f9;
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+        padding: 40px;
+        color: #334155;
+      }
+
+      /* --- MAIN WRAPPER --- */
+      .board-wrapper {
+        background-color: #ffffff;
+        border: 3px solid #334155;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        max-width: 1920px;
+        margin: 0 auto;
+        overflow-x: auto;
+      }
+
+      /* --- HEADER --- */
+      .board-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 25px 30px;
+        border-bottom: 2px solid #e2e8f0;
+        background-color: #ffffff;
+      }
+
+      .logo-section {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logo-icon {
+        font-size: 32px;
+        font-weight: 800;
+        color: #475569;
+        font-style: italic;
+      }
+
+      .logo-text {
+        font-size: 32px;
+        font-weight: 800;
+        color: #1e293b;
+        font-style: italic;
+        letter-spacing: -1px;
+      }
+
+      .title-text {
+        font-size: 32px;
+        font-weight: 400;
+        color: #475569;
+        font-style: italic;
+        letter-spacing: -0.5px;
+      }
+
+      .meta-boxes {
+        display: flex;
+        gap: 15px;
+      }
+
+      .meta-box {
+        border: 1px solid #cbd5e1;
+        background-color: #ffffff;
+        width: 260px;
+        padding: 8px 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-radius: 4px;
+      }
+
+      .meta-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: #000000;
+        margin-bottom: 4px;
+      }
+
+      .meta-value {
+        font-size: 14px;
+        font-weight: 400;
+        color: #334155;
+      }
+
+      /* --- CONTEXT BLOCK --- */
+      .context-block {
+        background-color: #ffffff;
+        padding: 30px;
+        font-size: 14px;
+        line-height: 1.6;
+        color: #334155;
+        border-bottom: 2px solid #e2e8f0;
+      }
+
+      .context-block h2 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #475569;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* --- GRID CONTAINER --- */
+      .grid-container {
+        display: grid;
+        grid-template-columns: 280px 140px repeat(7, minmax(240px, 1fr));
+        background-color: #1e293b;
+        gap: 2px;
+        min-width: 1600px;
+        border-top: 2px solid #1e293b;
+      }
+
+      /* --- GENERAL CELL STYLING --- */
+      .cell {
+        background-color: #ffffff;
+        padding: 16px 20px;
+        font-size: 13px;
+        line-height: 1.5;
+        display: flex;
+        flex-direction: column;
+        color: #334155;
+      }
+
+      .cell-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-weight: 600;
+        color: #ffffff;
+        font-size: 14px;
+      }
+
+      .cell-purple-dark {
+        background-color: #5b21b6;
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 15px;
+      }
+      .cell-purple-mid {
+        background-color: #6d28d9;
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .cell-purple-light {
+        background-color: #7c3aed;
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 15px;
+      }
+      .cell-gray {
+        background-color: #64748b;
+        color: #ffffff;
+      }
+      .cell-pink {
+        background-color: #db2777;
+        color: #ffffff;
+      }
+      .cell-orange {
+        background-color: #ea580c;
+        color: #ffffff;
+      }
+      .cell-yellow {
+        background-color: #d97706;
+        color: #ffffff;
+      }
+      .cell-blue {
+        background-color: #1e40af;
+        color: #ffffff;
+      }
+
+      .instr-cell {
+        background-color: #ffffff;
+        position: relative;
+        padding: 16px 20px;
+        color: #94a3b8;
+      }
+      .instr-text {
+        font-size: 14px;
+        font-weight: 600;
+        color: #94a3b8;
+        line-height: 1.4;
+      }
+      .time-limit {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        font-size: 10px;
+        color: #cbd5e1;
+        font-weight: 600;
+      }
+
+      .helper-cell {
+        background-color: #1e40af;
+        padding: 12px 16px;
+        color: #ffffff;
+        font-size: 11px;
+        line-height: 1.4;
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+      }
+
+      .helper-sub-box {
+        flex: 1;
+      }
+      .helper-sub-box strong {
+        display: block;
+        margin-top: 5px;
+        font-size: 11px;
+        font-weight: 400;
+      }
+      .helper-sub-box strong b {
+        font-weight: 600;
+      }
+      .helper-sub-box u {
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+        font-weight: 600;
+      }
+
+      .get-out-banner {
+        grid-column: 2 / -1;
+        background-color: #1e40af;
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 24px;
+        letter-spacing: 1px;
+      }
+
+      .exp-number {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 2px;
+      }
+      .exp-title-header {
+        font-size: 13px;
+        font-weight: 400;
+      }
+      .exp-title {
+        font-weight: 700;
+        font-size: 14px;
+        color: #a78bfa;
+        margin-bottom: 6px;
+      }
+
+      .fail-fast {
+        margin-top: auto;
+        padding-top: 15px;
+        color: #94a3b8;
+        font-size: 12px;
+        font-style: italic;
+      }
+      .fail-fast-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #cbd5e1;
+        display: block;
+        margin-bottom: 4px;
+        font-style: normal;
+      }
+      .empty-cell {
+        background-color: #faf5ff;
+        color: #7c3aed;
+        justify-content: center;
+        text-align: center;
+        border: 2px dashed #c4b5fd;
+      }
+      .pending-text {
+        font-weight: 700;
+        color: #7c3aed;
+        display: block;
+        margin-bottom: 4px;
+        font-size: 12px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="board-wrapper">
+      <div class="board-header">
+        <div class="logo-section">
+          <div class="logo-icon">&#x26A1;</div>
+          <div class="logo-text">Javelin</div>
+          <div class="title-text">Experiment Board</div>
+        </div>
+        <div class="meta-boxes">
+          <div class="meta-box">
+            <span class="meta-label">Project Name:</span>
+            <span class="meta-value">Language Academy (Desktop Web)</span>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">Team Leader Name:</span>
+            <span class="meta-value">Product Strategy</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="context-block">
+        <h2>Strategic Foundation & Testing Roadmap</h2>
+        <p>
+          This board outlines the validation criteria for a language acquisition
+          web app that prioritizes
+          <strong>Cultural Immersion for the Soul</strong> and a
+          <strong>Rigorous 4-Skill Routine</strong>. Every experiment focuses on
+          reducing the learner's emotional and cognitive friction while
+          providing authentic Canadian life context.
+        </p>
+      </div>
+
+      <div class="grid-container">
+        <!-- ROW 1: Headers -->
+        <div
+          class="cell cell-purple-dark"
+          style="align-items: flex-start; justify-content: center"
+        >
+          Start here. Brainstorm with stickies, pull it over to the right to
+          start your experiment.
+        </div>
+        <div class="cell cell-center cell-purple-mid">Experiments</div>
+
+        <div class="cell cell-center cell-purple-light">
+          <div class="exp-number">1</div>
+          <div class="exp-title-header">Rigorous Routine</div>
+        </div>
+        <div class="cell cell-center cell-purple-light">
+          <div class="exp-number">2</div>
+          <div class="exp-title-header">Absolute Beginners</div>
+        </div>
+        <div class="cell cell-center cell-purple-light">
+          <div class="exp-number">3</div>
+          <div class="exp-title-header">Intermediate Learners</div>
+        </div>
+        <div class="cell cell-center cell-purple-light">
+          <div class="exp-number">4</div>
+          <div class="exp-title-header">Guests & Newcomers</div>
+        </div>
+        <div class="cell cell-center cell-purple-light">
+          <div class="exp-number">5</div>
+          <div class="exp-title-header">Advanced Learners</div>
+        </div>
+        <div class="cell cell-center cell-purple-light">
+          <div class="exp-number">6</div>
+          <div class="exp-title-header">Reading Mechanics</div>
+        </div>
+        <div class="cell cell-center cell-purple-light">
+          <div class="exp-number">7</div>
+          <div class="exp-title-header">GenAI Support</div>
+        </div>
+
+        <!-- ROW 2: Customer -->
+        <div class="instr-cell">
+          <div class="instr-text">
+            Who is your customer? Be as specific as possible.
+          </div>
+          <div class="time-limit">Time Limit: 5 Min</div>
+        </div>
+        <div class="cell cell-center cell-purple-light">Customer</div>
+        <div class="cell">
+          A learner who knows they need discipline but finds themselves
+          "cheating" by only doing easy listening on other apps.
+        </div>
+        <div class="cell">
+          A learner who feels infantilized by "Cat and Dog" beginner books and
+          wants to feel like an adult in Canada.
+        </div>
+        <div class="cell">
+          A learner who understands their boss but feels like an outsider when
+          coworkers laugh at a joke or discuss the news.
+        </div>
+        <div class="cell">
+          A newcomer who is terrified of signing a rental contract or talking to
+          a banker because they don't know the local rules.
+        </div>
+        <div class="cell">
+          An expert in their field who feels like they lose their personality
+          and intelligence when they speak English at a high level.
+        </div>
+        <div class="cell">
+          A learner who wants to read real stories but finds context-switching
+          to a dictionary app frustrating and exhausting.
+        </div>
+        <div class="cell">
+          A learner who skips writing tasks entirely because of the high effort
+          required or because the prompt feels irrelevant.
+        </div>
+
+        <!-- ROW 3: Problem -->
+        <div class="instr-cell">
+          <div class="instr-text">
+            What is the problem? Phrase it from your customer's perspective.
+          </div>
+          <div class="time-limit">Time Limit: 5 Min</div>
+        </div>
+        <div class="cell cell-center cell-purple-light">Problem</div>
+        <div class="cell">
+          "I want to speak and write well, but without real accountability, I
+          always take the path of least resistance and never improve."
+        </div>
+        <div class="cell">
+          "I feel like a child studying materials that don't reflect the real
+          world I see outside my window every day."
+        </div>
+        <div class="cell">
+          "I am socially isolated because functional English isn't enough to
+          grasp the informal mass culture everyone around me shares."
+        </div>
+        <div class="cell">
+          "I am scared I'll get scammed or make a social mistake because I don't
+          understand how Canadian systems (housing, banking) actually work."
+        </div>
+        <div class="cell">
+          "I sound like a textbook, not a leader. I can't express complex
+          opinions or sarcasm, so I stay quiet in high-level conversations."
+        </div>
+        <div class="cell">
+          "Reading a real article feels like a chore because I spend more time
+          in a dictionary than actually enjoying the story."
+        </div>
+        <div class="cell">
+          "I don't write because I feel stuck without immediate help, and
+          waiting days for a human to check my grammar makes the work feel
+          useless."
+        </div>
+
+        <!-- ROW 4: Solution -->
+        <div class="instr-cell">
+          <div class="instr-text">
+            Define the solution only after you have validated a problem worth
+            solving.
+          </div>
+          <div class="time-limit">Time Limit: 5 Min</div>
+        </div>
+        <div class="cell cell-center cell-gray">Solution</div>
+        <div class="cell">
+          A routine that "forces" active practice through varied tasks (standard
+          emails vs. creative stories), unlocking tutor sessions as a reward.
+        </div>
+        <div class="cell">
+          Foundational skills taught through recognizable media (e.g. pop
+          lyrics, authentic local narratives) that feels adult and relevant.
+        </div>
+        <div class="cell">
+          Interactive modules based on mass-market culture (TV clips, sports,
+          regional news) to bridge the social gap.
+        </div>
+        <div class="cell">
+          Modules focused on practical navigation (dissecting rental agreements,
+          neighborhood news) to build confidence and security.
+        </div>
+        <div class="cell">
+          Reading and debate modules centered on complex national issues and
+          resonant literature to help find a "true voice."
+        </div>
+        <div class="cell">
+          A frictionless UI with invisible tools (inline click, sentence blocks,
+          ElevenLabs) that lets me stay immersed in the story.
+        </div>
+        <div class="cell">
+          An AI assistant that provides instant suggestions and error-finding
+          while I write, making the task feel supported rather than lonely.
+        </div>
+
+        <!-- ROW 5: Assumption -->
+        <div class="instr-cell">
+          <div class="instr-text">
+            List the assumptions that must hold true, for your hypothesis to be
+            true.
+          </div>
+          <div class="time-limit">Time Limit: 10 Min</div>
+        </div>
+        <div class="cell cell-center cell-pink">Riskiest<br />Assumption</div>
+        <div class="cell">
+          The impending human tutor session provides enough motivation to
+          survive the high friction of rigorous self-study.
+        </div>
+        <div class="cell">
+          Authentic media provides stronger motivation to push through
+          difficulty than simple, "easy" textbook dialogues.
+        </div>
+        <div class="cell">
+          Learners recognize that mastering "mass culture" is the key to social
+          connection and feeling at home.
+        </div>
+        <div class="cell">
+          Learners will prioritize civic knowledge (laws/banking) over pure
+          grammar once they realize it protects them.
+        </div>
+        <div class="cell">
+          Highly skilled experts are willing to study "remote" literature if
+          they believe it helps them regain their professional "face."
+        </div>
+        <div class="cell">
+          Removing the need to switch tabs is the single most important factor
+          in keeping someone reading a difficult text.
+        </div>
+        <div class="cell">
+          I will actually complete the writing if I have an AI "safety net" to
+          catch my mistakes before a human tutor sees them.
+        </div>
+
+        <!-- ROW 6: Method -->
+        <div
+          class="cell cell-purple-mid"
+          style="
+            align-items: flex-start;
+            justify-content: center;
+            padding: 16px 20px;
+          "
+        >
+          Need help? Use these sentences to help construct your experiment.
+        </div>
+        <div class="cell cell-center cell-orange">
+          Method &<br />Success<br />Criterion
+        </div>
+        <div class="cell">
+          Prototype a flow requiring two diverse writing tasks before unlocking
+          a live session.
+          <div class="fail-fast">
+            <span class="fail-fast-label">Fail Fast Condition</span>Learner asks
+            for the tutor without doing the work.
+          </div>
+        </div>
+        <div class="cell">
+          A/B test: Interact with song lyrics vs. a standard 'Hello' dialogue.
+          Ask which feels more useful.
+          <div class="fail-fast">
+            <span class="fail-fast-label">Fail Fast Condition</span>Learner
+            finds authentic media "too chaotic."
+          </div>
+        </div>
+        <div class="cell">
+          Shadow a local TV clip using the 0.75x audio. Ask if it makes them
+          feel more ready for "watercooler" chat.
+          <div class="fail-fast">
+            <span class="fail-fast-label">Fail Fast Condition</span>Learner
+            demands sterile word lists instead.
+          </div>
+        </div>
+        <div class="cell">
+          Interact with a redacted lease agreement. Measure engagement with the
+          context popups.
+          <div class="fail-fast">
+            <span class="fail-fast-label">Fail Fast Condition</span>Learner only
+            looks up direct word translations.
+          </div>
+        </div>
+        <div class="cell">
+          Read a sophisticated editorial on national issues. Prompt a short
+          critical response.
+          <div class="fail-fast">
+            <span class="fail-fast-label">Fail Fast Condition</span>Learner
+            views history/politics as irrelevant.
+          </div>
+        </div>
+        <div class="cell">
+          Comparative test: Read using standard tabs vs. the integrated reading
+          tool.
+          <div class="fail-fast">
+            <span class="fail-fast-label">Fail Fast Condition</span>Learner
+            fails to use the Ctrl+click tool.
+          </div>
+        </div>
+        <div class="cell">
+          Compare writing engagement with AI-enabled hints vs. a blank text box.
+          <div class="fail-fast">
+            <span class="fail-fast-label">Fail Fast Condition</span>Learner
+            finds the AI suggestions intrusive or unhelpful.
+          </div>
+        </div>
+
+        <!-- ROW 7: Helpers -->
+        <div class="helper-cell">
+          <div class="helper-sub-box">
+            Customer/Problem Hypothesis:<strong
+              ><b>I believe</b> <u>my learner</u> <b>has a problem</b>
+              <u>feeling social isolation</u>.</strong
+            >
+          </div>
+          <div class="helper-sub-box">
+            Problem/Solution Hypothesis:<strong
+              ><b>I believe</b> <u>this cultural media</u> <b>will result in</b>
+              <u>higher session time</u>.</strong
+            >
+          </div>
+        </div>
+        <div class="get-out-banner">
+          <i>&#x1F3C3;</i>GET OUT OF THE BUILDING!<i>&#x1F3C3;</i>
+        </div>
+
+        <!-- ROW 8: Result -->
+        <div class="helper-cell">
+          <div class="helper-sub-box">
+            Form Assumptions:<strong
+              ><b>In order for</b> <u>the routine</u> <b>to work,</b>
+              <u>tutor accountability</u> <b>is needed.</b></strong
+            >
+          </div>
+          <div class="helper-sub-box">
+            Riskiest Assumption:<strong
+              ><b>The assumption core to the</b> <u>learner's soul</u>
+              <b>and progress is...</b></strong
+            >
+          </div>
+        </div>
+        <div class="cell cell-center cell-yellow">Result &<br />Decision</div>
+        <div class="cell empty-cell">
+          <span class="pending-text">[ PENDING ]</span>
+        </div>
+        <div class="cell empty-cell">
+          <span class="pending-text">[ PENDING ]</span>
+        </div>
+        <div class="cell empty-cell">
+          <span class="pending-text">[ PENDING ]</span>
+        </div>
+        <div class="cell empty-cell">
+          <span class="pending-text">[ PENDING ]</span>
+        </div>
+        <div class="cell empty-cell">
+          <span class="pending-text">[ PENDING ]</span>
+        </div>
+        <div class="cell empty-cell">
+          <span class="pending-text">[ PENDING ]</span>
+        </div>
+        <div class="cell empty-cell">
+          <span class="pending-text">[ PENDING ]</span>
+        </div>
+
+        <!-- ROW 9: Learning -->
+        <div class="helper-cell">
+          <div class="helper-sub-box">
+            Test it:<strong
+              ><b>The least expensive way to test</b> <u>AI writing support</u>
+              <b>is...</b></strong
+            >
+          </div>
+          <div class="helper-sub-box">
+            Success:<strong
+              ><b>I will run experiment with</b> <u>10 learners</u>
+              <b>and expect engagement.</b></strong
+            >
+          </div>
+        </div>
+        <div class="cell cell-center cell-yellow">Learning</div>
+        <div class="cell empty-cell">
+          <span class="pending-text">[ PENDING ]</span>
+        </div>
+        <div class="cell empty-cell">
+          <span class="pending-text">[ PENDING ]</span>
+        </div>
+        <div class="cell empty-cell">
+          <span class="pending-text">[ PENDING ]</span>
+        </div>
+        <div class="cell empty-cell">
+          <span class="pending-text">[ PENDING ]</span>
+        </div>
+        <div class="cell empty-cell">
+          <span class="pending-text">[ PENDING ]</span>
+        </div>
+        <div class="cell empty-cell">
+          <span class="pending-text">[ PENDING ]</span>
+        </div>
+        <div class="cell empty-cell">
+          <span class="pending-text">[ PENDING ]</span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
