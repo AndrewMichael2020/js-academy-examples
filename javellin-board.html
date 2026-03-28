@@ -1,0 +1,217 @@
+import React from 'react';
+
+export default function App() {
+  const experiments = [
+    {
+      id: 1,
+      level: "CLB 1-3",
+      customer: "Absolute Beginner:\nSofia, 45, refugee. Zero English.",
+      problem: "I want to learn English, but standard classes are boring functional drills. I don't feel connected to Canada.",
+      solution: "A web platform teaching Reading, Writing, Listening, and Speaking using Canadian songs, Indigenous stories, and visual arts.",
+      assumption: "Beginners will learn faster and stay motivated if the foundation is cultural storytelling rather than functional grammar.",
+      method: "Show a printed storyboard of a Canadian folktale vs a standard grammar worksheet to 8 beginners. Success (Sofia's view): 'The story makes me want to understand the words. The grammar page looks like a chore.' Fail fast: If they choose grammar because 'it looks like real school'.",
+      result: "7 out of 8 chose the folktale storyboard, stating they wanted to understand the culture to feel like they belong.",
+      learning: "Cultural acquisition is a stronger motivator than functional drills, even at the absolute beginner level. Stories drive the desire to read and listen."
+    },
+    {
+      id: 2,
+      level: "CLB 4-6",
+      customer: "Intermediate:\nMateo, 28, tradesperson. Functional English.",
+      problem: "I know basic English, but I don't understand Canadian jokes, movies, or how to socialize with coworkers.",
+      solution: "A web academy module using Canadian cinema clips and theater scripts to practice all 4 skills, including roleplay.",
+      assumption: "Intermediate learners will value analyzing local cinema and theater over standard ESL exercises to bridge the social gap.",
+      method: "Pitch a web course based on watching and discussing Canadian films to 9 intermediate learners. Success (Mateo's view): 'This would help me talk to my coworkers on Monday morning.' Fail fast: If they say 'Movies are for fun, I need to learn serious English.'",
+      result: "8 out of 9 expressed high interest, specifically noting that understanding media helps them feel less isolated at work.",
+      learning: "Pop culture and cinema are viewed as high-ROI tools for social integration. They want to read scripts and speak about plotlines."
+    },
+    {
+      id: 3,
+      level: "CLB 7",
+      customer: "Pre-Arrival:\nLi Na, 35, waiting to move to Canada.",
+      problem: "I can pass a language test, but I don't know Canadian business culture or how to protect myself legally.",
+      solution: "A web-based 'Business & Law' curriculum covering contract reading, professional email writing, and corporate culture case studies.",
+      assumption: "Pre-arrival candidates prioritize learning business acumen and legal norms over general English practice.",
+      method: "Present a syllabus outline of 'Canadian Business Acumen' to 7 pre-arrival candidates over video call. Success (Li Na's view): 'This is exactly what I need to survive the corporate world in Canada.' Fail fast: If they prefer a standard IELTS prep syllabus.",
+      result: "All 7 candidates wanted to enroll immediately based on the syllabus alone, citing fear of the 'Canadian Experience' barrier.",
+      learning: "Business and legal culture are the primary drivers for pre-arrival monetization. Reading contracts and writing professional emails are highly valued skills."
+    },
+    {
+      id: 4,
+      level: "CLB 8-9+",
+      customer: "Advanced:\nDr. Ahmed, 42, foreign-trained doctor.",
+      problem: "My English is perfect, but I lack the cultural depth to connect with executives or understand historical references.",
+      solution: "An advanced web masterclass analyzing famous Canadian writers (e.g., Margaret Atwood) and complex social debates across all 4 skills.",
+      assumption: "Highly skilled immigrants will invest time in studying Canadian literature and history to achieve executive-level communication.",
+      method: "Pitch the concept of a 'Canadian Literature & Executive Tone' web course to 10 advanced professionals. Success (Ahmed's view): 'This is the missing piece for me to sound like a local leader.' Fail fast: If they view literature as irrelevant to their career.",
+      result: "8 out of 10 validated the concept, noting that executive presence requires shared cultural touchstones.",
+      learning: "Advanced cultural acquisition (literature, history) is seen as a strategic career asset. They want to write essays and debate complex topics."
+    },
+    {
+      id: 5,
+      level: "All Levels",
+      customer: "Academy Wide Core:\nAll Students.",
+      problem: "Language phone apps focus only on reading or listening, and treat Canadian culture as an afterthought.",
+      solution: "A comprehensive web academy that guarantees equal practice in Reading, Writing, Listening, and Speaking through a 100% cultural lens.",
+      assumption: "Students recognize the value of rigorous, balanced 4-skill practice tied to culture over fast, gamified functional apps.",
+      method: "Survey 10 students, asking them to choose between a 'Fast Grammar Phone App' and a 'Cultural Web Academy'. Success (Student's view): 'I want the web academy because it treats me like a student of Canada, not a user playing a game.' Fail fast: If they prefer the convenience of a phone game.",
+      result: "9 out of 10 chose the web academy concept, stating they are frustrated with the lack of real real-world progress from phone apps.",
+      learning: "There is a strong market desire for serious, culturally immersive web-based learning. The friction of a desktop web app is seen as a feature of a 'real school'."
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-100 p-8 font-sans text-sm text-gray-800">
+      <div className="max-w-[1400px] mx-auto bg-white border-4 border-gray-700 shadow-2xl overflow-x-auto">
+        
+        {/* Top Header */}
+        <div className="flex justify-between items-center p-4 border-b-4 border-gray-700 bg-gray-50">
+          <div className="flex items-center gap-2">
+            <svg className="w-8 h-8 text-[#4a5c72]" fill="currentColor" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <h1 className="text-4xl font-bold text-[#353f50] italic tracking-tight">Javelin <span className="font-light">Experiment Board</span></h1>
+          </div>
+          <div className="flex gap-4">
+            <div className="border border-gray-400 bg-white p-2 w-48 text-xs h-12">
+              <span className="font-bold block mb-1">Project Name:</span>
+              Language Academy (Web)
+            </div>
+            <div className="border border-gray-400 bg-white p-2 w-48 text-xs h-12">
+              <span className="font-bold block mb-1">Team Leader Name:</span>
+              Product Strategy
+            </div>
+          </div>
+        </div>
+
+        {/* Main Grid: 7 Columns (Left Instructions, Labels, 5 Experiments) */}
+        <div className="grid grid-cols-[260px_130px_repeat(5,minmax(180px,1fr))] border-gray-700">
+          
+          {/* Header Row */}
+          <div className="bg-[#9c7ac5] text-white font-bold p-3 border-r-2 border-b-2 border-gray-700">
+            Start here. Brainstorm with stickies, pull it over to the right to start your experiment.
+          </div>
+          <div className="bg-[#9c7ac5] text-white font-bold p-3 border-r border-b-2 border-gray-700 text-center flex items-center justify-center">
+            Experiments
+          </div>
+          {experiments.map(exp => (
+            <div key={`head-${exp.id}`} className="bg-[#9c7ac5] text-white font-bold p-3 border-r border-b-2 border-gray-700 text-center flex flex-col items-center justify-center">
+              <span className="text-lg">{exp.id}</span>
+              <span className="text-xs font-normal mt-1 opacity-90">{exp.level}</span>
+            </div>
+          ))}
+
+          {/* Customer Row */}
+          <div className="bg-white p-3 border-r-2 border-b border-gray-700 relative">
+            <h3 className="font-bold text-gray-400 text-sm w-4/5">Who is your customer? Be as specific as possible.</h3>
+            <span className="absolute top-2 right-2 text-[10px] text-gray-300">Time Limit: 5 Min</span>
+          </div>
+          <div className="bg-[#b395ca] text-white font-bold p-3 border-r border-b border-gray-700 flex items-center justify-center">
+            Customer
+          </div>
+          {experiments.map(exp => (
+            <div key={`cust-${exp.id}`} className="bg-white p-3 border-r border-b border-gray-700 whitespace-pre-wrap leading-tight text-xs">
+              {exp.customer}
+            </div>
+          ))}
+
+          {/* Problem Row */}
+          <div className="bg-white p-3 border-r-2 border-b border-gray-700 relative">
+            <h3 className="font-bold text-gray-400 text-sm w-4/5">What is the problem? Phrase it from your customer's perspective.</h3>
+            <span className="absolute top-2 right-2 text-[10px] text-gray-300">Time Limit: 5 Min</span>
+          </div>
+          <div className="bg-[#b395ca] text-white font-bold p-3 border-r border-b border-gray-700 flex items-center justify-center">
+            Problem
+          </div>
+          {experiments.map(exp => (
+            <div key={`prob-${exp.id}`} className="bg-white p-3 border-r border-b border-gray-700 text-xs text-gray-600 leading-tight">
+              "{exp.problem}"
+            </div>
+          ))}
+
+          {/* Solution Row */}
+          <div className="bg-white p-3 border-r-2 border-b border-gray-700 relative">
+            <h3 className="font-bold text-gray-400 text-sm w-4/5">Define the solution only after you have validated a problem worth solving.</h3>
+            <span className="absolute top-2 right-2 text-[10px] text-gray-300">Time Limit: 5 Min</span>
+          </div>
+          <div className="bg-[#b395ca] text-white font-bold p-3 border-r border-b border-gray-700 flex items-center justify-center">
+            Solution
+          </div>
+          {experiments.map(exp => (
+            <div key={`sol-${exp.id}`} className="bg-white p-3 border-r border-b border-gray-700 text-xs leading-tight">
+              {exp.solution}
+            </div>
+          ))}
+
+          {/* Riskiest Assumption Row */}
+          <div className="bg-white p-3 border-r-2 border-b-2 border-gray-700 relative">
+            <h3 className="font-bold text-gray-400 text-sm w-4/5">List the assumptions that must hold true, for your hypothesis to be true.</h3>
+            <span className="absolute top-2 right-2 text-[10px] text-gray-300">Time Limit: 10 Min</span>
+          </div>
+          <div className="bg-[#e78db5] text-white font-bold p-3 border-r border-b-2 border-gray-700 flex items-center justify-center text-center">
+            Riskiest<br/>Assumption
+          </div>
+          {experiments.map(exp => (
+            <div key={`assm-${exp.id}`} className="bg-white p-3 border-r border-b-2 border-gray-700 text-xs leading-tight">
+              {exp.assumption}
+            </div>
+          ))}
+
+          {/* Method Row (With Helper Header on left) */}
+          <div className="bg-[#b395ca] text-white font-bold p-3 border-r-2 border-b border-gray-700 text-xs flex items-center">
+            Need help? Use these sentences to help construct your experiment.
+          </div>
+          <div className="bg-[#f0a354] text-white font-bold p-3 border-r border-b border-gray-700 flex items-center justify-center text-center">
+            Method &<br/>Success<br/>Criterion
+          </div>
+          {experiments.map(exp => (
+            <div key={`meth-${exp.id}`} className="bg-white p-3 border-r border-b border-gray-700 text-xs leading-tight">
+              {exp.method}
+            </div>
+          ))}
+
+          {/* GET OUT OF THE BUILDING Row */}
+          <div className="bg-[#4a5c72] text-white p-3 border-r-2 border-b border-gray-700 text-xs">
+            <p className="mb-2">To form a Customer/Problem Hypothesis:</p>
+            <p className="font-bold">I believe <u className="underline-offset-2">my customer</u> has a problem <u className="underline-offset-2">achieving this goal</u>.</p>
+          </div>
+          <div className="col-span-6 bg-[#4a5c72] text-white font-bold p-2 border-b border-gray-700 flex justify-between items-center px-4 tracking-widest text-sm">
+            <span>🏃 GET OUT OF THE BUILDING!</span>
+            <span>🏃</span>
+          </div>
+
+          {/* Result Row */}
+          <div className="bg-[#4a5c72] text-white p-3 border-r-2 border-b border-gray-700 text-xs">
+            <p className="mb-2">To form your Assumptions:</p>
+            <p className="font-bold">In order for <u className="underline-offset-2">hypothesis</u> to be true, <u className="underline-offset-2">assumption</u> needs to be true.</p>
+          </div>
+          <div className="bg-[#efcc52] text-white font-bold p-3 border-r border-b border-gray-700 flex items-center justify-center text-center">
+            Result &<br/>Decision
+          </div>
+          {experiments.map(exp => (
+            <div key={`res-${exp.id}`} className="bg-white p-3 border-r border-b border-gray-700 text-xs font-semibold leading-tight">
+              {exp.result}
+            </div>
+          ))}
+
+          {/* Learning Row */}
+          <div className="bg-[#4a5c72] text-white p-3 border-r-2 border-gray-700 text-xs h-full">
+            <p className="mb-2">Determine how you will test it:</p>
+            <p className="font-bold">The least expensive way to test my assumption is...</p>
+          </div>
+          <div className="bg-[#efcc52] text-white font-bold p-3 border-r border-gray-700 flex items-center justify-center">
+            Learning
+          </div>
+          {experiments.map(exp => (
+            <div key={`lrn-${exp.id}`} className="bg-white p-3 border-r border-gray-700 text-xs leading-tight italic bg-yellow-50">
+              {exp.learning}
+            </div>
+          ))}
+
+        </div>
+      </div>
+      
+      <div className="max-w-[1400px] mx-auto mt-2 text-[10px] text-gray-500 flex justify-between">
+        <span>Language Academy Validation - Web & Culture First</span>
+        <span>Reformatted to strict Javelin grid specifications</span>
+      </div>
+    </div>
+  );
+}
