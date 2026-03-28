@@ -1,270 +1,410 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reading Component Validation</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-</head>
-<body>
-  <div id="root"></div>
-  <script type="text/babel">
-function App() {
-  const experiments = [
-    {
-      id: 1,
-      level: "Word Level",
-      customer: "Any Student:\nTrying to read a real story.",
-      problem: "Stopping to look up words in a dictionary breaks my focus, so I give up reading.",
-      solution: "Click any word to see the meaning and hear it right there in a small popup.",
-      assumption: "This instant popup keeps them reading longer because it removes the friction of switching apps.",
-      method: "Have 10 users read a paragraph with the popup tool versus a normal dictionary. Success (Student): 'I actually finished the paragraph.' Fail fast: If they say 'The popup is distracting.'",
-      result: "9 out of 10 finished the text; they clicked 3-4 words per sentence.",
-      learning: "Inline translation successfully removes the friction that causes readers to abandon texts."
-    },
-    {
-      id: 2,
-      level: "Sentence Level",
-      customer: "Any Student:\nStuck on a confusing phrase.",
-      problem: "Translating word-by-word doesn't help me understand idioms or complex sentences.",
-      solution: "Hold 'Ctrl' and click anywhere to translate the whole sentence block.",
-      assumption: "People will read a small hint and remember a keyboard shortcut to keep the screen clean.",
-      method: "Ask 10 users to translate a full sentence, providing only a small text hint on the page. Success (Student): 'I can check the whole sentence without breaking the clean view.' Fail fast: If they try to drag-highlight and get frustrated.",
-      result: "Only 4 users found the shortcut; 6 required a verbal prompt.",
-      learning: "A text hint is not enough. We must build a mandatory, one-time interactive tutorial on their first visit to teach 'Ctrl+Click'."
-    },
-    {
-      id: 3,
-      level: "Audio Value",
-      customer: "Any Student:\nWanting to fix their accent.",
-      problem: "Computer voices sound robotic. I can't learn real emotion or rhythm from them.",
-      solution: "Play a high-quality, human-sounding recording (ElevenLabs) for every sentence.",
-      assumption: "The premium voice actually helps them practice speaking better than a free robot voice, justifying the cost.",
-      method: "Blind test the robotic browser voice vs. the premium voice for shadowing. Success (Student): 'I want to mimic the premium voice.' Fail fast: If they say 'They sound the same to me.'",
-      result: "100% preferred the premium voice, stating it sounded like a real person telling a story.",
-      learning: "High-quality audio is a massive value-add and justifies the backend generation and CDN hosting costs."
-    },
-    {
-      id: 4,
-      level: "Visual Design",
-      customer: "Easily Distracted Reader:\nStruggles with messy screens.",
-      problem: "Too many buttons, colors, and highlights make reading stressful.",
-      solution: "The text looks like a completely normal book until you hover or click a word.",
-      assumption: "Users prefer clean text over obvious visual cues (like blue underlines) for every clickable word.",
-      method: "Show text with blue underlined links vs. plain text that reacts to clicks. Success (Student): 'The plain text is easier to read.' Fail fast: If they don't realize the plain text is clickable.",
-      result: "Plain text won, provided the mouse cursor changes to a pointer on hover.",
-      learning: "Avoid visual clutter at all costs. Use standard CSS hover states (cursor changes) to indicate interaction instead of permanent colors."
-    },
-    {
-      id: 5,
-      level: "Grammar Context",
-      customer: "Analytical Student:\nStruggles with word roles.",
-      problem: "A direct translation gives me the meaning, but it doesn't tell me how to use the word myself later.",
-      solution: "Display a simple part-of-speech or idiom tag (e.g., 'Action', 'Phrasal Verb') next to the translation.",
-      assumption: "Seeing the grammar tag helps them internalize the word's structure without requiring a full grammar lesson.",
-      method: "Show two popups: one with just translation, one with translation + grammar tag. Success (Student): 'The tag helps me understand why those two words are together.' Fail fast: If they say 'I don't know what that tag means.'",
-      result: "8 out of 10 found tags helpful, specifically for identifying idioms.",
-      learning: "Keep grammar tags in plain language (e.g., 'Action' instead of 'Past Participle') to avoid alienating lower CLB levels."
-    },
-    {
-      id: 6,
-      level: "Audio Pacing",
-      customer: "Lower-Intermediate (CLB 4-5):\nTrying to shadow speech.",
-      problem: "The native speaker audio is too fast for me to shadow accurately, so I just listen passively.",
-      solution: "A 0.75x speed toggle directly inside the translation popup next to the play button.",
-      assumption: "Users will actively manage playback speed to match their current speaking capability.",
-      method: "Provide a complex sentence audio at 1x and 0.75x. Success (Student): 'I need the slower one to practice my pronunciation.' Fail fast: If the speed toggle is never clicked.",
-      result: "Heavily utilized by CLB 4-5 learners; largely ignored by CLB 7+.",
-      learning: "Implement playback speed adjustment purely on the frontend (Web Audio API) to save CDN storage while providing accessibility."
-    },
-    {
-      id: 7,
-      level: "Vocab Capture",
-      customer: "Goal-Oriented Learner:\nBuilding a vocabulary.",
-      problem: "I understand the text now, but I will forget these new words by tomorrow if I don't write them down.",
-      solution: "A one-click 'Save' (star) icon inside the translation popup to instantly add the word to a personal deck.",
-      assumption: "Users want to curate personal study lists seamlessly without interrupting their reading flow.",
-      method: "Add a dummy 'Save' button to the popup. Success (Student): Clicks save on unknown words organically. Fail fast: If they say 'I'll just re-read the text later.'",
-      result: "High engagement; average of 8 words saved per reading session.",
-      learning: "Vocabulary capture must be a zero-friction, single-click action within the reading flow to bridge comprehension and retention."
-    }
-  ];
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reading Component Validation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function App() {
+        const experiments = [
+          {
+            id: 1,
+            level: "Word Level",
+            customer: "Any Student:\nTrying to read a real story.",
+            problem:
+              "Stopping to look up words in a dictionary breaks my focus, so I give up reading.",
+            solution:
+              "Click any word to see the meaning and hear it right there in a small popup.",
+            assumption:
+              "This instant popup keeps them reading longer because it removes the friction of switching apps.",
+            method:
+              "Have 10 users read a paragraph with the popup tool versus a normal dictionary. Success (Student): 'I actually finished the paragraph.' Fail fast: If they say 'The popup is distracting.'",
+            result:
+              "9 out of 10 finished the text; they clicked 3-4 words per sentence.",
+            learning:
+              "Inline translation successfully removes the friction that causes readers to abandon texts.",
+          },
+          {
+            id: 2,
+            level: "Sentence Level",
+            customer: "Any Student:\nStuck on a confusing phrase.",
+            problem:
+              "Translating word-by-word doesn't help me understand idioms or complex sentences.",
+            solution:
+              "Hold 'Ctrl' and click anywhere to translate the whole sentence block.",
+            assumption:
+              "People will read a small hint and remember a keyboard shortcut to keep the screen clean.",
+            method:
+              "Ask 10 users to translate a full sentence, providing only a small text hint on the page. Success (Student): 'I can check the whole sentence without breaking the clean view.' Fail fast: If they try to drag-highlight and get frustrated.",
+            result:
+              "Only 4 users found the shortcut; 6 required a verbal prompt.",
+            learning:
+              "A text hint is not enough. We must build a mandatory, one-time interactive tutorial on their first visit to teach 'Ctrl+Click'.",
+          },
+          {
+            id: 3,
+            level: "Audio Value",
+            customer: "Any Student:\nWanting to fix their accent.",
+            problem:
+              "Computer voices sound robotic. I can't learn real emotion or rhythm from them.",
+            solution:
+              "Play a high-quality, human-sounding recording (ElevenLabs) for every sentence.",
+            assumption:
+              "The premium voice actually helps them practice speaking better than a free robot voice, justifying the cost.",
+            method:
+              "Blind test the robotic browser voice vs. the premium voice for shadowing. Success (Student): 'I want to mimic the premium voice.' Fail fast: If they say 'They sound the same to me.'",
+            result:
+              "100% preferred the premium voice, stating it sounded like a real person telling a story.",
+            learning:
+              "High-quality audio is a massive value-add and justifies the backend generation and CDN hosting costs.",
+          },
+          {
+            id: 4,
+            level: "Visual Design",
+            customer:
+              "Easily Distracted Reader:\nStruggles with messy screens.",
+            problem:
+              "Too many buttons, colors, and highlights make reading stressful.",
+            solution:
+              "The text looks like a completely normal book until you hover or click a word.",
+            assumption:
+              "Users prefer clean text over obvious visual cues (like blue underlines) for every clickable word.",
+            method:
+              "Show text with blue underlined links vs. plain text that reacts to clicks. Success (Student): 'The plain text is easier to read.' Fail fast: If they don't realize the plain text is clickable.",
+            result:
+              "Plain text won, provided the mouse cursor changes to a pointer on hover.",
+            learning:
+              "Avoid visual clutter at all costs. Use standard CSS hover states (cursor changes) to indicate interaction instead of permanent colors.",
+          },
+          {
+            id: 5,
+            level: "Grammar Context",
+            customer: "Analytical Student:\nStruggles with word roles.",
+            problem:
+              "A direct translation gives me the meaning, but it doesn't tell me how to use the word myself later.",
+            solution:
+              "Display a simple part-of-speech or idiom tag (e.g., 'Action', 'Phrasal Verb') next to the translation.",
+            assumption:
+              "Seeing the grammar tag helps them internalize the word's structure without requiring a full grammar lesson.",
+            method:
+              "Show two popups: one with just translation, one with translation + grammar tag. Success (Student): 'The tag helps me understand why those two words are together.' Fail fast: If they say 'I don't know what that tag means.'",
+            result:
+              "8 out of 10 found tags helpful, specifically for identifying idioms.",
+            learning:
+              "Keep grammar tags in plain language (e.g., 'Action' instead of 'Past Participle') to avoid alienating lower CLB levels.",
+          },
+          {
+            id: 6,
+            level: "Audio Pacing",
+            customer: "Lower-Intermediate (CLB 4-5):\nTrying to shadow speech.",
+            problem:
+              "The native speaker audio is too fast for me to shadow accurately, so I just listen passively.",
+            solution:
+              "A 0.75x speed toggle directly inside the translation popup next to the play button.",
+            assumption:
+              "Users will actively manage playback speed to match their current speaking capability.",
+            method:
+              "Provide a complex sentence audio at 1x and 0.75x. Success (Student): 'I need the slower one to practice my pronunciation.' Fail fast: If the speed toggle is never clicked.",
+            result:
+              "Heavily utilized by CLB 4-5 learners; largely ignored by CLB 7+.",
+            learning:
+              "Implement playback speed adjustment purely on the frontend (Web Audio API) to save CDN storage while providing accessibility.",
+          },
+          {
+            id: 7,
+            level: "Vocab Capture",
+            customer: "Goal-Oriented Learner:\nBuilding a vocabulary.",
+            problem:
+              "I understand the text now, but I will forget these new words by tomorrow if I don't write them down.",
+            solution:
+              "A one-click 'Save' (star) icon inside the translation popup to instantly add the word to a personal deck.",
+            assumption:
+              "Users want to curate personal study lists seamlessly without interrupting their reading flow.",
+            method:
+              "Add a dummy 'Save' button to the popup. Success (Student): Clicks save on unknown words organically. Fail fast: If they say 'I'll just re-read the text later.'",
+            result:
+              "High engagement; average of 8 words saved per reading session.",
+            learning:
+              "Vocabulary capture must be a zero-friction, single-click action within the reading flow to bridge comprehension and retention.",
+          },
+        ];
 
-  return (
-    <div className="min-h-screen bg-gray-100 p-8 font-sans text-sm text-gray-800">
-      <div className="max-w-[1600px] mx-auto bg-white border-4 border-gray-700 shadow-2xl overflow-x-auto">
-        
-        {/* Top Header */}
-        <div className="flex justify-between items-center p-4 border-b-4 border-gray-700 bg-gray-50">
-          <div className="flex items-center gap-2">
-            <svg className="w-8 h-8 text-[#4a5c72]" fill="currentColor" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            <h1 className="text-4xl font-bold text-[#353f50] italic tracking-tight">Javelin <span className="font-light">Experiment Board</span></h1>
-          </div>
-          <div className="flex gap-4">
-            <div className="border border-gray-400 bg-white p-2 w-48 text-xs h-12">
-              <span className="font-bold block mb-1">Project Name:</span>
-              Reading Component UX
+        return (
+          <div className="min-h-screen bg-gray-100 p-8 font-sans text-sm text-gray-800">
+            <div className="max-w-[1600px] mx-auto bg-white border-4 border-gray-700 shadow-2xl overflow-x-auto">
+              {/* Top Header */}
+              <div className="flex justify-between items-center p-4 border-b-4 border-gray-700 bg-gray-50">
+                <div className="flex items-center gap-2">
+                  <svg
+                    className="w-8 h-8 text-[#4a5c72]"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                  </svg>
+                  <h1 className="text-4xl font-bold text-[#353f50] italic tracking-tight">
+                    Javelin <span className="font-light">Experiment Board</span>
+                  </h1>
+                </div>
+                <div className="flex gap-4">
+                  <div className="border border-gray-400 bg-white p-2 w-48 text-xs h-12">
+                    <span className="font-bold block mb-1">Project Name:</span>
+                    Reading Component UX
+                  </div>
+                  <div className="border border-gray-400 bg-white p-2 w-48 text-xs h-12">
+                    <span className="font-bold block mb-1">
+                      Team Leader Name:
+                    </span>
+                    Frontend Engineering
+                  </div>
+                </div>
+              </div>
+
+              {/* Functionality Description Block */}
+              <div className="bg-[#f8fafc] p-6 border-b-4 border-gray-700">
+                <h2 className="text-lg font-bold text-[#353f50] mb-2 uppercase tracking-wide">
+                  Component Functionality (Desktop Web Only)
+                </h2>
+                <p className="text-gray-700 leading-relaxed mb-3">
+                  This Reading Component is the core of a language acquisition
+                  web app designed to teach English through authentic Canadian
+                  cultural texts.{" "}
+                  <strong>
+                    Unlike reading a standard magazine page or news site where
+                    learners must switch to a separate dictionary app—breaking
+                    focus and losing context—this component embeds learning
+                    tools directly into the text invisibly.
+                  </strong>{" "}
+                  It provides:
+                </p>
+                <ul className="list-disc list-inside text-gray-600 space-y-1">
+                  <li>
+                    <strong className="text-gray-800">Click</strong> any word
+                    for an inline translation and grammar popup.
+                  </li>
+                  <li>
+                    <strong className="text-gray-800">Ctrl + Click</strong> (or
+                    Cmd + Click) anywhere in a sentence for full block
+                    translation.
+                  </li>
+                  <li>
+                    <strong className="text-gray-800">Audio integration</strong>{" "}
+                    plays pre-generated ElevenLabs audio via CDN (with 0.75x
+                    local playback control) to aid pronunciation.
+                  </li>
+                  <li>
+                    <strong className="text-gray-800">Inline Save</strong>{" "}
+                    allows instant 1-click addition of words to a user's
+                    spaced-repetition deck for active retention.
+                  </li>
+                </ul>
+              </div>
+
+              {/* Main Grid: 9 Columns total (Left Instructions [260px], Labels [130px], 7 Experiments [180px each]) */}
+              <div className="grid grid-cols-[260px_130px_repeat(7,minmax(180px,1fr))] border-gray-700">
+                {/* Header Row */}
+                <div className="bg-[#9c7ac5] text-white font-bold p-3 border-r-2 border-b-2 border-gray-700">
+                  Start here. Brainstorm with stickies, pull it over to the
+                  right to start your experiment.
+                </div>
+                <div className="bg-[#9c7ac5] text-white font-bold p-3 border-r border-b-2 border-gray-700 text-center flex items-center justify-center">
+                  Experiments
+                </div>
+                {experiments.map((exp) => (
+                  <div
+                    key={`head-${exp.id}`}
+                    className="bg-[#9c7ac5] text-white font-bold p-3 border-r border-b-2 border-gray-700 text-center flex flex-col items-center justify-center"
+                  >
+                    <span className="text-lg">{exp.id}</span>
+                    <span className="text-xs font-normal mt-1 opacity-90 text-center">
+                      {exp.level}
+                    </span>
+                  </div>
+                ))}
+
+                {/* Customer Row */}
+                <div className="bg-white p-3 border-r-2 border-b border-gray-700 relative">
+                  <h3 className="font-bold text-gray-400 text-sm w-4/5">
+                    Who is your customer? Be as specific as possible.
+                  </h3>
+                  <span className="absolute top-2 right-2 text-[10px] text-gray-300">
+                    Time Limit: 5 Min
+                  </span>
+                </div>
+                <div className="bg-[#b395ca] text-white font-bold p-3 border-r border-b border-gray-700 flex items-center justify-center">
+                  Customer
+                </div>
+                {experiments.map((exp) => (
+                  <div
+                    key={`cust-${exp.id}`}
+                    className="bg-white p-3 border-r border-b border-gray-700 whitespace-pre-wrap leading-tight text-xs"
+                  >
+                    {exp.customer}
+                  </div>
+                ))}
+
+                {/* Problem Row */}
+                <div className="bg-white p-3 border-r-2 border-b border-gray-700 relative">
+                  <h3 className="font-bold text-gray-400 text-sm w-4/5">
+                    What is the problem? Phrase it from your customer's
+                    perspective.
+                  </h3>
+                  <span className="absolute top-2 right-2 text-[10px] text-gray-300">
+                    Time Limit: 5 Min
+                  </span>
+                </div>
+                <div className="bg-[#b395ca] text-white font-bold p-3 border-r border-b border-gray-700 flex items-center justify-center">
+                  Problem
+                </div>
+                {experiments.map((exp) => (
+                  <div
+                    key={`prob-${exp.id}`}
+                    className="bg-white p-3 border-r border-b border-gray-700 text-xs text-gray-600 leading-tight"
+                  >
+                    "{exp.problem}"
+                  </div>
+                ))}
+
+                {/* Solution Row */}
+                <div className="bg-white p-3 border-r-2 border-b border-gray-700 relative">
+                  <h3 className="font-bold text-gray-400 text-sm w-4/5">
+                    Define the solution only after you have validated a problem
+                    worth solving.
+                  </h3>
+                  <span className="absolute top-2 right-2 text-[10px] text-gray-300">
+                    Time Limit: 5 Min
+                  </span>
+                </div>
+                <div className="bg-[#b395ca] text-white font-bold p-3 border-r border-b border-gray-700 flex items-center justify-center">
+                  Solution
+                </div>
+                {experiments.map((exp) => (
+                  <div
+                    key={`sol-${exp.id}`}
+                    className="bg-white p-3 border-r border-b border-gray-700 text-xs leading-tight"
+                  >
+                    {exp.solution}
+                  </div>
+                ))}
+
+                {/* Riskiest Assumption Row */}
+                <div className="bg-white p-3 border-r-2 border-b-2 border-gray-700 relative">
+                  <h3 className="font-bold text-gray-400 text-sm w-4/5">
+                    List the assumptions that must hold true, for your
+                    hypothesis to be true.
+                  </h3>
+                  <span className="absolute top-2 right-2 text-[10px] text-gray-300">
+                    Time Limit: 10 Min
+                  </span>
+                </div>
+                <div className="bg-[#e78db5] text-white font-bold p-3 border-r border-b-2 border-gray-700 flex items-center justify-center text-center">
+                  Riskiest
+                  <br />
+                  Assumption
+                </div>
+                {experiments.map((exp) => (
+                  <div
+                    key={`assm-${exp.id}`}
+                    className="bg-white p-3 border-r border-b-2 border-gray-700 text-xs leading-tight"
+                  >
+                    {exp.assumption}
+                  </div>
+                ))}
+
+                {/* Method Row */}
+                <div className="bg-[#b395ca] text-white font-bold p-3 border-r-2 border-b border-gray-700 text-xs flex items-center">
+                  Need help? Use these sentences to help construct your
+                  experiment.
+                </div>
+                <div className="bg-[#f0a354] text-white font-bold p-3 border-r border-b border-gray-700 flex items-center justify-center text-center">
+                  Method &<br />
+                  Success
+                  <br />
+                  Criterion
+                </div>
+                {experiments.map((exp) => (
+                  <div
+                    key={`meth-${exp.id}`}
+                    className="bg-white p-3 border-r border-b border-gray-700 text-xs leading-tight"
+                  >
+                    {exp.method}
+                  </div>
+                ))}
+
+                {/* GET OUT OF THE BUILDING Row */}
+                <div className="bg-[#4a5c72] text-white p-3 border-r-2 border-b border-gray-700 text-xs">
+                  <p className="mb-2">To form a Customer/Problem Hypothesis:</p>
+                  <p className="font-bold">
+                    I believe <u className="underline-offset-2">my customer</u>{" "}
+                    has a problem{" "}
+                    <u className="underline-offset-2">achieving this goal</u>.
+                  </p>
+                </div>
+                <div className="col-span-8 bg-[#4a5c72] text-white font-bold p-2 border-b border-gray-700 flex justify-between items-center px-4 tracking-widest text-sm">
+                  <span>🏃 GET OUT OF THE BUILDING!</span>
+                  <span>🏃</span>
+                </div>
+
+                {/* Result Row */}
+                <div className="bg-[#4a5c72] text-white p-3 border-r-2 border-b border-gray-700 text-xs">
+                  <p className="mb-2">To form your Assumptions:</p>
+                  <p className="font-bold">
+                    In order for{" "}
+                    <u className="underline-offset-2">hypothesis</u> to be true,{" "}
+                    <u className="underline-offset-2">assumption</u> needs to be
+                    true.
+                  </p>
+                </div>
+                <div className="bg-[#efcc52] text-white font-bold p-3 border-r border-b border-gray-700 flex items-center justify-center text-center">
+                  Result &<br />
+                  Decision
+                </div>
+                {experiments.map((exp) => (
+                  <div
+                    key={`res-${exp.id}`}
+                    className="bg-white p-3 border-r border-b border-gray-700 text-xs font-semibold leading-tight"
+                  >
+                    {exp.result}
+                  </div>
+                ))}
+
+                {/* Learning Row */}
+                <div className="bg-[#4a5c72] text-white p-3 border-r-2 border-gray-700 text-xs h-full">
+                  <p className="mb-2">Determine how you will test it:</p>
+                  <p className="font-bold">
+                    The least expensive way to test my assumption is...
+                  </p>
+                </div>
+                <div className="bg-[#efcc52] text-white font-bold p-3 border-r border-gray-700 flex items-center justify-center">
+                  Learning
+                </div>
+                {experiments.map((exp) => (
+                  <div
+                    key={`lrn-${exp.id}`}
+                    className="bg-white p-3 border-r border-gray-700 text-xs leading-tight italic bg-yellow-50"
+                  >
+                    {exp.learning}
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="border border-gray-400 bg-white p-2 w-48 text-xs h-12">
-              <span className="font-bold block mb-1">Team Leader Name:</span>
-              Frontend Engineering
+
+            <div className="max-w-[1600px] mx-auto mt-2 text-[10px] text-gray-500 flex justify-between">
+              <span>Reading Component UI/UX Validation (Desktop Web)</span>
+              <span>7-Column Scaled Javelin Grid Architecture</span>
             </div>
           </div>
-        </div>
+        );
+      }
 
-        {/* Functionality Description Block */}
-        <div className="bg-[#f8fafc] p-6 border-b-4 border-gray-700">
-          <h2 className="text-lg font-bold text-[#353f50] mb-2 uppercase tracking-wide">Component Functionality (Desktop Web Only)</h2>
-          <p className="text-gray-700 leading-relaxed mb-3">
-            The Reading Component provides an uninterrupted reading environment for cultural texts, bypassing external dictionaries through invisible inline interactions and integrated retention mechanics.
-          </p>
-          <ul className="list-disc list-inside text-gray-600 space-y-1">
-            <li><strong className="text-gray-800">Click</strong> any word for an inline translation and grammar popup.</li>
-            <li><strong className="text-gray-800">Ctrl + Click</strong> (or Cmd + Click) anywhere in a sentence for full block translation.</li>
-            <li><strong className="text-gray-800">Audio integration</strong> plays pre-generated ElevenLabs audio via CDN (with 0.75x local playback control).</li>
-            <li><strong className="text-gray-800">Inline Save</strong> allows instant 1-click addition of words to a user's spaced-repetition deck.</li>
-          </ul>
-        </div>
-
-        {/* Main Grid: 9 Columns total (Left Instructions [260px], Labels [130px], 7 Experiments [180px each]) */}
-        <div className="grid grid-cols-[260px_130px_repeat(7,minmax(180px,1fr))] border-gray-700">
-          
-          {/* Header Row */}
-          <div className="bg-[#9c7ac5] text-white font-bold p-3 border-r-2 border-b-2 border-gray-700">
-            Start here. Brainstorm with stickies, pull it over to the right to start your experiment.
-          </div>
-          <div className="bg-[#9c7ac5] text-white font-bold p-3 border-r border-b-2 border-gray-700 text-center flex items-center justify-center">
-            Experiments
-          </div>
-          {experiments.map(exp => (
-            <div key={`head-${exp.id}`} className="bg-[#9c7ac5] text-white font-bold p-3 border-r border-b-2 border-gray-700 text-center flex flex-col items-center justify-center">
-              <span className="text-lg">{exp.id}</span>
-              <span className="text-xs font-normal mt-1 opacity-90 text-center">{exp.level}</span>
-            </div>
-          ))}
-
-          {/* Customer Row */}
-          <div className="bg-white p-3 border-r-2 border-b border-gray-700 relative">
-            <h3 className="font-bold text-gray-400 text-sm w-4/5">Who is your customer? Be as specific as possible.</h3>
-            <span className="absolute top-2 right-2 text-[10px] text-gray-300">Time Limit: 5 Min</span>
-          </div>
-          <div className="bg-[#b395ca] text-white font-bold p-3 border-r border-b border-gray-700 flex items-center justify-center">
-            Customer
-          </div>
-          {experiments.map(exp => (
-            <div key={`cust-${exp.id}`} className="bg-white p-3 border-r border-b border-gray-700 whitespace-pre-wrap leading-tight text-xs">
-              {exp.customer}
-            </div>
-          ))}
-
-          {/* Problem Row */}
-          <div className="bg-white p-3 border-r-2 border-b border-gray-700 relative">
-            <h3 className="font-bold text-gray-400 text-sm w-4/5">What is the problem? Phrase it from your customer's perspective.</h3>
-            <span className="absolute top-2 right-2 text-[10px] text-gray-300">Time Limit: 5 Min</span>
-          </div>
-          <div className="bg-[#b395ca] text-white font-bold p-3 border-r border-b border-gray-700 flex items-center justify-center">
-            Problem
-          </div>
-          {experiments.map(exp => (
-            <div key={`prob-${exp.id}`} className="bg-white p-3 border-r border-b border-gray-700 text-xs text-gray-600 leading-tight">
-              "{exp.problem}"
-            </div>
-          ))}
-
-          {/* Solution Row */}
-          <div className="bg-white p-3 border-r-2 border-b border-gray-700 relative">
-            <h3 className="font-bold text-gray-400 text-sm w-4/5">Define the solution only after you have validated a problem worth solving.</h3>
-            <span className="absolute top-2 right-2 text-[10px] text-gray-300">Time Limit: 5 Min</span>
-          </div>
-          <div className="bg-[#b395ca] text-white font-bold p-3 border-r border-b border-gray-700 flex items-center justify-center">
-            Solution
-          </div>
-          {experiments.map(exp => (
-            <div key={`sol-${exp.id}`} className="bg-white p-3 border-r border-b border-gray-700 text-xs leading-tight">
-              {exp.solution}
-            </div>
-          ))}
-
-          {/* Riskiest Assumption Row */}
-          <div className="bg-white p-3 border-r-2 border-b-2 border-gray-700 relative">
-            <h3 className="font-bold text-gray-400 text-sm w-4/5">List the assumptions that must hold true, for your hypothesis to be true.</h3>
-            <span className="absolute top-2 right-2 text-[10px] text-gray-300">Time Limit: 10 Min</span>
-          </div>
-          <div className="bg-[#e78db5] text-white font-bold p-3 border-r border-b-2 border-gray-700 flex items-center justify-center text-center">
-            Riskiest<br/>Assumption
-          </div>
-          {experiments.map(exp => (
-            <div key={`assm-${exp.id}`} className="bg-white p-3 border-r border-b-2 border-gray-700 text-xs leading-tight">
-              {exp.assumption}
-            </div>
-          ))}
-
-          {/* Method Row */}
-          <div className="bg-[#b395ca] text-white font-bold p-3 border-r-2 border-b border-gray-700 text-xs flex items-center">
-            Need help? Use these sentences to help construct your experiment.
-          </div>
-          <div className="bg-[#f0a354] text-white font-bold p-3 border-r border-b border-gray-700 flex items-center justify-center text-center">
-            Method &<br/>Success<br/>Criterion
-          </div>
-          {experiments.map(exp => (
-            <div key={`meth-${exp.id}`} className="bg-white p-3 border-r border-b border-gray-700 text-xs leading-tight">
-              {exp.method}
-            </div>
-          ))}
-
-          {/* GET OUT OF THE BUILDING Row */}
-          <div className="bg-[#4a5c72] text-white p-3 border-r-2 border-b border-gray-700 text-xs">
-            <p className="mb-2">To form a Customer/Problem Hypothesis:</p>
-            <p className="font-bold">I believe <u className="underline-offset-2">my customer</u> has a problem <u className="underline-offset-2">achieving this goal</u>.</p>
-          </div>
-          <div className="col-span-8 bg-[#4a5c72] text-white font-bold p-2 border-b border-gray-700 flex justify-between items-center px-4 tracking-widest text-sm">
-            <span>🏃 GET OUT OF THE BUILDING!</span>
-            <span>🏃</span>
-          </div>
-
-          {/* Result Row */}
-          <div className="bg-[#4a5c72] text-white p-3 border-r-2 border-b border-gray-700 text-xs">
-            <p className="mb-2">To form your Assumptions:</p>
-            <p className="font-bold">In order for <u className="underline-offset-2">hypothesis</u> to be true, <u className="underline-offset-2">assumption</u> needs to be true.</p>
-          </div>
-          <div className="bg-[#efcc52] text-white font-bold p-3 border-r border-b border-gray-700 flex items-center justify-center text-center">
-            Result &<br/>Decision
-          </div>
-          {experiments.map(exp => (
-            <div key={`res-${exp.id}`} className="bg-white p-3 border-r border-b border-gray-700 text-xs font-semibold leading-tight">
-              {exp.result}
-            </div>
-          ))}
-
-          {/* Learning Row */}
-          <div className="bg-[#4a5c72] text-white p-3 border-r-2 border-gray-700 text-xs h-full">
-            <p className="mb-2">Determine how you will test it:</p>
-            <p className="font-bold">The least expensive way to test my assumption is...</p>
-          </div>
-          <div className="bg-[#efcc52] text-white font-bold p-3 border-r border-gray-700 flex items-center justify-center">
-            Learning
-          </div>
-          {experiments.map(exp => (
-            <div key={`lrn-${exp.id}`} className="bg-white p-3 border-r border-gray-700 text-xs leading-tight italic bg-yellow-50">
-              {exp.learning}
-            </div>
-          ))}
-
-        </div>
-      </div>
-      
-      <div className="max-w-[1600px] mx-auto mt-2 text-[10px] text-gray-500 flex justify-between">
-        <span>Reading Component UI/UX Validation (Desktop Web)</span>
-        <span>7-Column Scaled Javelin Grid Architecture</span>
-      </div>
-    </div>
-  );
-}
-
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-  </script>
-</body>
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
 </html>
