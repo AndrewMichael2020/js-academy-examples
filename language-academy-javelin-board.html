@@ -28,7 +28,7 @@
           Helvetica,
           Arial,
           sans-serif;
-        padding: 40px;
+        padding: 24px;
         color: #334155;
       }
 
@@ -39,7 +39,7 @@
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
         max-width: 1920px;
         margin: 0 auto;
-        overflow-x: auto;
+        overflow-x: hidden;
       }
 
       /* --- HEADER --- */
@@ -132,11 +132,10 @@
       /* --- GRID CONTAINER --- */
       .grid-container {
         display: grid;
-        grid-template-columns: 280px 140px repeat(7, minmax(240px, 1fr));
-        background-color: #1e293b;
+        grid-template-columns: 2.5fr 1.5fr repeat(7, 2fr);
+        background-color: #e2e8f0;
         gap: 2px;
-        min-width: 1600px;
-        border-top: 2px solid #1e293b;
+        border-top: 2px solid #e2e8f0;
       }
 
       /* --- GENERAL CELL STYLING --- */
@@ -161,41 +160,41 @@
       }
 
       .cell-purple-dark {
-        background-color: #5b21b6;
+        background-color: #8b6b9e;
         color: #ffffff;
         font-weight: 600;
         font-size: 15px;
       }
       .cell-purple-mid {
-        background-color: #6d28d9;
+        background-color: #9b7eb0;
         color: #ffffff;
         font-weight: 600;
         font-size: 14px;
       }
       .cell-purple-light {
-        background-color: #7c3aed;
+        background-color: #b598c6;
         color: #ffffff;
         font-weight: 600;
         font-size: 15px;
       }
       .cell-gray {
-        background-color: #64748b;
+        background-color: #94a3b8;
         color: #ffffff;
       }
       .cell-pink {
-        background-color: #db2777;
+        background-color: #e39ab9;
         color: #ffffff;
       }
       .cell-orange {
-        background-color: #ea580c;
+        background-color: #eba55f;
         color: #ffffff;
       }
       .cell-yellow {
-        background-color: #d97706;
+        background-color: #eed05a;
         color: #ffffff;
       }
       .cell-blue {
-        background-color: #1e40af;
+        background-color: #6b81a0;
         color: #ffffff;
       }
 
@@ -221,7 +220,7 @@
       }
 
       .helper-cell {
-        background-color: #1e40af;
+        background-color: #6b81a0;
         padding: 12px 16px;
         color: #ffffff;
         font-size: 11px;
@@ -251,7 +250,7 @@
 
       .get-out-banner {
         grid-column: 2 / -1;
-        background-color: #1e40af;
+        background-color: #6b81a0;
         color: #ffffff;
         font-weight: 700;
         font-size: 14px;
@@ -274,7 +273,7 @@
       .exp-title {
         font-weight: 700;
         font-size: 14px;
-        color: #a78bfa;
+        color: #8b6b9e;
         margin-bottom: 6px;
       }
 
@@ -296,15 +295,14 @@
         font-style: normal;
       }
       .empty-cell {
-        background-color: #faf5ff;
-        color: #7c3aed;
+        background-color: #f8fafc;
+        color: #94a3b8;
         justify-content: center;
         text-align: center;
-        border: 2px dashed #c4b5fd;
       }
       .pending-text {
         font-weight: 700;
-        color: #7c3aed;
+        color: #94a3b8;
         display: block;
         margin-bottom: 4px;
         font-size: 12px;
@@ -338,9 +336,16 @@
           This board outlines the validation criteria for a language acquisition
           web app that prioritizes
           <strong>Cultural Immersion for the Soul</strong> and a
-          <strong>Rigorous 4-Skill Routine</strong>. Every experiment focuses on
-          reducing the learner's emotional and cognitive friction while
-          providing authentic Canadian life context.
+          <strong>Rigorous 4-Skill Routine</strong>. The core mission is to
+          empower the learner's success through rapid alignment to Canada's
+          cultural and social context—achieving in weeks and months what
+          traditionally would unnecessarily take years and decades. By removing
+          cognitive friction through our <strong>Frictionless UI</strong>
+          (inline translation, sentence blocks), enforcing a
+          <strong>Rigorous 4-Skill Routine</strong> (90% self-study vs 10%
+          tutor meetups), and utilizing <strong>GenAI Support</strong> for
+          enriched assistance, we help guests and newcomers achieve deep
+          cultural alignment far beyond basic functional frameworks.
         </p>
       </div>
 
