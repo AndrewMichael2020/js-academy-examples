@@ -39,7 +39,7 @@
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
         max-width: 1920px;
         margin: 0 auto;
-        overflow-x: hidden;
+        overflow-x: auto;
       }
 
       /* --- HEADER --- */
@@ -307,6 +307,52 @@
         margin-bottom: 4px;
         font-size: 12px;
         text-align: center;
+      }
+
+      /* --- RESPONSIVE / MOBILE --- */
+      @media (max-width: 768px) {
+        body {
+          padding: 0;
+          background-color: #ffffff;
+        }
+
+        .board-wrapper {
+          border: none;
+          box-shadow: none;
+          max-width: 100%;
+        }
+
+        .board-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 16px;
+          padding: 16px;
+        }
+
+        .logo-text,
+        .logo-icon,
+        .title-text {
+          font-size: 22px;
+        }
+
+        .meta-boxes {
+          flex-direction: column;
+          width: 100%;
+          gap: 8px;
+        }
+
+        .meta-box {
+          width: 100%;
+        }
+
+        .context-block {
+          padding: 16px;
+        }
+
+        /* Make the grid scroll horizontally at a readable minimum width */
+        .grid-container {
+          min-width: 900px;
+        }
       }
     </style>
   </head>
